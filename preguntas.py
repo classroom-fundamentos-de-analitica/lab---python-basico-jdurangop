@@ -12,7 +12,6 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 """
 
-
 def pregunta_01():
     """
     Retorne la suma de la segunda columna.
@@ -21,7 +20,13 @@ def pregunta_01():
     214
 
     """
-    return
+    result = 0
+
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+        result = sum(int(row.split()[1]) for row in data)
+    
+    return result
 
 
 def pregunta_02():
@@ -39,7 +44,20 @@ def pregunta_02():
     ]
 
     """
-    return
+    ls = []
+
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+        letters = dict()
+
+        for row in data:
+            l = row.split()[0]
+            letters[l] = letters.get(l, 0) + 1
+        
+        ls = list(letters.items())
+        ls.sort()
+    
+    return ls
 
 
 def pregunta_03():
@@ -57,7 +75,21 @@ def pregunta_03():
     ]
 
     """
-    return
+    ls = []
+
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+        letters = dict()
+
+        for row in data:
+            r = row.split()
+            l, n = r[0], int(r[1])
+            letters[l] = letters.get(l, 0) + n
+        
+        ls = list(letters.items())
+        ls.sort()
+    
+    return ls
 
 
 def pregunta_04():
@@ -82,7 +114,21 @@ def pregunta_04():
     ]
 
     """
-    return
+    ls = []
+
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+        months = dict()
+
+        for row in data:
+            r = row.split()
+            m = r[2].split('-')[1]
+            months[m] = months.get(m, 0) + 1
+        
+        ls = list(months.items())
+        ls.sort()
+    
+    return ls
 
 
 def pregunta_05():
@@ -100,7 +146,26 @@ def pregunta_05():
     ]
 
     """
-    return
+    ls = []
+
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+        letters = dict()
+
+        for row in data:
+            r = row.split()
+            l, n = r[0], int(r[1])
+            
+            if l not in letters:
+                letters[l] = [n, n]
+            else:
+                tup = letters[l]
+                letters[l] = [max(tup[0], n), min(tup[1], n)]
+        
+        ls = [(l, tup[0], tup[1]) for l, tup in letters.items()]
+        ls.sort()
+
+    return ls
 
 
 def pregunta_06():
@@ -125,8 +190,29 @@ def pregunta_06():
     ]
 
     """
-    return
+    ls = []
 
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+        dic = dict()
+
+        for row in data:
+            r = row.split()[4].split(',')
+            for d in r:
+                k, v = d.split(':')
+                v = int(v)
+                
+                if k not in dic:
+                    dic[k] = [v, v]
+                else:
+                    tup = dic[k]
+                    dic[k] = [min(tup[0], v), max(tup[1], v)]
+        
+        ls = [(k, tup[0], tup[1]) for k, tup in dic.items()]
+        ls.sort()
+        
+
+    return ls
 
 def pregunta_07():
     """
@@ -149,7 +235,25 @@ def pregunta_07():
     ]
 
     """
-    return
+    ls = []
+
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+        dic = dict()
+
+        for row in data:
+            r = row.split()
+            l, n = r[0], int(r[1])
+
+            if n in dic:
+                dic[n].append(l)
+            else:
+                dic[n] = [l]
+        
+        ls = list(dic.items())
+        ls.sort()
+
+    return ls
 
 
 def pregunta_08():
@@ -174,8 +278,29 @@ def pregunta_08():
     ]
 
     """
-    return
+    ls = []
 
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+        dic = dict()
+
+        for row in data:
+            r = row.split()
+            l, n = r[0], int(r[1])
+            
+            if n in dic:
+                dic[n].add(l)
+            else:
+                dic[n] = set(l)
+        
+        for n, letters in dic.items():
+            letters = list(letters)
+            letters.sort()
+            ls.append((n, letters))
+        
+        ls.sort()
+
+    return ls
 
 def pregunta_09():
     """
@@ -197,8 +322,19 @@ def pregunta_09():
     }
 
     """
-    return
+    dic = dict()
 
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+
+        for row in data:
+            r = row.split()[4].split(',')
+            
+            for d in r:
+                k = d.split(':')[0]
+                dic[k] = dic.get(k, 0) + 1
+    
+    return dic
 
 def pregunta_10():
     """
@@ -218,7 +354,17 @@ def pregunta_10():
 
 
     """
-    return
+    ls = []
+
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+
+        for row in data:
+            r = row.split()
+            t = (r[0], len(r[3].split(',')), len(r[4].split(',')))
+            ls.append(t)
+
+    return ls
 
 
 def pregunta_11():
@@ -239,7 +385,19 @@ def pregunta_11():
 
 
     """
-    return
+    dic = dict()
+
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+
+        for row in data:
+            r = row.split()
+            n = int(r[1])
+
+            for l in r[3].split(','):
+                dic[l] = dic.get(l, 0) + n
+
+    return dic
 
 
 def pregunta_12():
@@ -257,4 +415,19 @@ def pregunta_12():
     }
 
     """
-    return
+    
+    dic = dict()
+
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+
+        for row in data:
+            r = row.split()
+            l = r[0]
+            
+
+            for d in r[4].split(','):
+                n = int(d.split(':')[1])
+                dic[l] = dic.get(l, 0) + n
+
+    return dic
